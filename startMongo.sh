@@ -1,1 +1,1 @@
-docker run $@ mongo
+docker run $@ -p 27017:27017 mongo 
