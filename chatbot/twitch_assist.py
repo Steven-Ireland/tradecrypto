@@ -13,3 +13,6 @@ class TwitchAssist:
 
     def sendmsg(channel, message):
         irc.send('PRIVMSG #' + channel + ' ' + message + ' \r\n')
+
+    def readmsg():
+        
