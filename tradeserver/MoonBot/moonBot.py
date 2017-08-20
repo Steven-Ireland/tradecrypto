@@ -18,8 +18,8 @@ class moonBot(object):
         self.pair = pair
     
     def moonWatch(self):
-        currentTicker = self.conn.api_query("returnTicker")
-        pricePair = currentTicker[self.pair]["last"]
         while True:
+            currentTicker = self.conn.api_query("returnTicker")
+            pricePair = currentTicker[self.pair]["last"]
             print "Current time : {:%Y-%m-%d %H:%M:%S}".format(datetime.now()) + "market : %s: %s" %(self.pair,pricePair)
             time.sleep(int(self.period))
