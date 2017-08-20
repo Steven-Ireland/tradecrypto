@@ -22,19 +22,45 @@
 #OTHER DEALINGS IN THE SOFTWARE.
 #@author litao
 
+#a command line app first to test poloniex api
 
 import time
-import sys
-from poloniex import poloniex
-
+import sys, getopt
+import datetime
+from moonBot import moonBot
 
 def main(argv):
-    period = argv
-    conn = poloniex('key','sec')
+    period, pair, apiKey, secret = readCommandLineOpts(argv)
+    moon = moonBot(period, pair, apiKey, secret)
+    moon.moonWatch()
     
-    while True:
-        print("ETH Moon time ?:" + str(period[:3]))
-        time.sleep(int(period[3]))
+def readCommandLineOpts(argv):
+    period = 300 #seconds
+    pair = "BTC_ETH"
+    
+    try:
+        opts, args = getopt.getopt(argv, "hp:t:a:s:")
+    except getopt.GetoptError:
+        print 'foo!YOU ARE NOT PREPARED!'
+        sys.exit(2)
         
-if __name__ == '__main__':
+    for opt, arg in opts:
+        if opt == '-h':
+            print 'think twice before u Hodl: main.py -p 3 -t <trade pair> -a <apiKey> -s <secret>'
+            sys.exit()
+        elif opt in ("-p"):
+            if (int(arg) in [3, 300,900,1800,7200,14400,86400]): #pre defined time period required by polonix and me
+                period = arg
+            else:
+                print 'think twice before u Hodl'
+                sys.exit(2)
+        elif opt in ("-t"):
+            pair = arg
+        elif opt in ("-a"):
+            apiKey = arg
+        elif opt in ("-s"):
+            secret = arg
+    return period, pair, apiKey, secret
+    
+if __name__ == "__main__":
     main(sys.argv[1:])
