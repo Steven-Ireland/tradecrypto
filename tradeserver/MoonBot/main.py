@@ -32,7 +32,9 @@ from moonBot import moonBot
 def main(argv):
     period, pair, apiKey, secret = readCommandLineOpts(argv)
     moon = moonBot(period, pair, apiKey, secret)
-    moon.moonWatch()
+    print moon.queryTargetBalance("BTC")
+#     moon.moonWatch()
+    
     
 def readCommandLineOpts(argv):
     period = 300 #seconds
