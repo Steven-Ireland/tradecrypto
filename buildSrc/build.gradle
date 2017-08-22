@@ -1,0 +1,25 @@
+//This needs to be all projects because the root project needs repositories if you declare ANY dependencies
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+subprojects {
+    apply plugin: 'eclipse'
+    apply plugin: 'groovy'
+    apply plugin: 'idea'
+
+    dependencies {
+        compile gradleApi()
+        compile localGroovy()
+
+        testCompile 'junit:junit:4.12'
+    }
+
+    tasks['eclipse'].dependsOn tasks['cleanEclipse']
+}
+
+dependencies{
+    runtime subprojects
+}
