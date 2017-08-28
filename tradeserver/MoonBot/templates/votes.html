@@ -1,0 +1,34 @@
+<!doctype html>
+<div>
+<h>Post New Votes<h>
+<form action="/newVotes" method="POST">
+  <input type="text" name="voting_period">votingPeriod
+  <input type="text" name="voting_pair">votingPair
+  <input type="text" name="voting_volume">count
+  <input type="text" name="processed">processed
+  <input type="submit">
+</form>
+</div>
+
+
+<div>
+<h>Moon Watch<h>
+<form action="/moonWatch" method="POST">
+  <input type="text" name="pair">pair
+  <input type="text" name="apiKey">apiKey
+  <input type="text" name="secret">secret
+  <input type="submit">
+</form>
+</div>
+
+{% for vote in votes %}
+  <h1> votingPair: {{vote.votingPair}} </h1>
+  <p> votingPeriod: {{vote.votingPeriod}} </p>
+  <p> count: {{vote.count}} </p>
+  <p> processed: {{vote.processed}} </p>
+{% endfor %}
+
+{% if tradePair %}
+  <h1>Watch Pair : {{tradePair[0]}} </h1>
+  <p>Market Price : {{tradePair[1]}} </p>
+{% endif %}

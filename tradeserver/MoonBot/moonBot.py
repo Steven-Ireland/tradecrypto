@@ -20,8 +20,13 @@ class moonBot(object):
     
     def queryPairs(self):
         currentTicker = self.conn.api_query("returnTicker")
-        pricePair = currentTicker[self.pair]["last"]
-        return pricePair
+        if self.pair in currentTicker:
+            pricePair = currentTicker[self.pair]["last"]
+            return pricePair
+        return 'N/A'
+    
+    def queryCurrentTicker(self):
+        return self.convertToStr(self.conn.api_query("returnTicker"))
     
     #scale to 8
     def queryBalance(self):
