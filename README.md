@@ -18,7 +18,7 @@ donations
 * Provide an interface to publish vote counts in real time to database? probably last thing required
 
 ### The tradeserver is responsible for:
-* Exposing a REST post url to execute trades
+* read the votes from mongoDB as instruction to excute trades
 * Keeping track of current positions in the database
 * Possibly some verification logic to make sure no stupid trades are made
 
