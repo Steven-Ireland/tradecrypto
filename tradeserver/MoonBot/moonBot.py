@@ -10,13 +10,31 @@ import time
 import json, ast
 
 class moonBot(object):
+    
     '''
     the bot that trade a shitcoin to the moon
     '''
-    def __init__(self, period, pair,apiKey, secret):
-        self.conn = poloniex(apiKey,secret)
+    
+    
+    def __init__(self, period=None, pair=None,apiKey=None, secret=None, allowed_pair=None):
+        '''
+        
+        @param period: time period between making api calls
+        @param pair:
+        @param apiKey:
+        @param secret:
+        @param allowed_pair: a set of pre defined allowed pairs, we should cross join this pair to the available list on polo
+        '''
+        
+        if apiKey and secret:
+            self.conn = poloniex(apiKey,secret)
+            self.allowd_pair = allowed_pair.intersection(set(self.queryCurrentTicker().keys()))
+                
         self.period = period
         self.pair = pair
+        
+            
+        
     
     def queryPairs(self):
         currentTicker = self.conn.api_query("returnTicker")
@@ -74,6 +92,28 @@ class moonBot(object):
     def queryTargetBalance(self, currency):
         return self.queryBalance()[currency]
     
+    @staticmethod
+    def reversePair(pair):
+        _pair = pair.split('_')
+        return _pair[1] + '_' + _pair[0]
+    
+    #add this to avoid stupid self trading pair 
+    @staticmethod
+    def isSelfPair(pair):
+        _pair = pair.split('_')
+        return _pair[1] == _pair[0]
+    
+    def isValidPair(self, pair):
+        if moonBot.isSelfPair(pair):
+            return False
+        if pair in self.allowed_pair or moonBot.reversePair(pair) in self.allowed_pair:
+            return True 
+    
+    def isReady(self):
+        if self.conn:
+            return True
+        return False
+        
     
     def moonWatch(self):
         while True:

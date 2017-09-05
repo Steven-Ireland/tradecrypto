@@ -23,6 +23,7 @@ def moonWatch():
         return render_template('votes.html', votes=votes, tradePair=tradePair, balances=balances)
     return render_template('votes.html', votes=votes)
 
+
 @moonBotController.route('/newVotes', methods=['POST'])
 def postVotes():
     votes = {
