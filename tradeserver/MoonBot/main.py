@@ -33,4 +33,4 @@ def readCommandLineOpts(argv):
 if __name__ == "__main__":
     args = readCommandLineOpts(sys.argv[1:])
     bot = moonBot(args[0], args[1], args[2], args[3])
-    print bot.queryCurrentTicker();
+    print bot.queryBalance();

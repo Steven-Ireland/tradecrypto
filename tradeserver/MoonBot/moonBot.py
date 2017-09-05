@@ -30,7 +30,7 @@ class moonBot(object):
     
     #scale to 8
     def queryBalance(self):
-        return self.conn.returnBalances()
+        return self.convertToStr(self.conn.returnBalances())
     
     def queryOpenOrder(self, currentPair=None):
         if currentPair is None:

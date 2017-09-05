@@ -22,7 +22,7 @@
 </div>
 
 {% for vote in votes %}
-  <h1> votingPair: {{vote.votingPair}} </h1>
+  <h1> votingPair: {{vote['votingPair']}} </h1>
   <p> votingPeriod: {{vote.votingPeriod}} </p>
   <p> count: {{vote.count}} </p>
   <p> processed: {{vote.processed}} </p>
@@ -32,3 +32,18 @@
   <h1>Watch Pair : {{tradePair[0]}} </h1>
   <p>Market Price : {{tradePair[1]}} </p>
 {% endif %}
+
+
+<h1>current balances</h1>
+<table>
+{% for key in balances %}
+ <tr>
+  <td>{{key}}:</td>
+  <td>{{balances[key]}}</td>
+ </tr>
+{% endfor %}
+</table>
+
+
+
+
