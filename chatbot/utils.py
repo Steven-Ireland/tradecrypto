@@ -1,4 +1,3 @@
-import socket
 import cfg
 
 def sendmsg(irc, message):

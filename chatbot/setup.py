@@ -15,9 +15,7 @@ setup(
     url='https://github.com/Steven-Ireland/tradecrypto',
     author='Irelands Drunken Developer',
     license='MIT',
-    classifiers=[
-
-    ],
+    classifiers=[],
     keywords='twitch chat bot chatbot crypto cryptocurrency',
     packages=find_packages(exclude=['docs'])
 )
