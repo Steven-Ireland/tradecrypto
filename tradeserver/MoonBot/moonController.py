@@ -4,27 +4,25 @@ from moonBase import moonBase
 import ast,json
 
 
-moonBotController = Flask(__name__)
-moonBotController.secret_key = 'ether moon timestamp'
+moonController = Flask(__name__)
+moonController.secret_key = 'ether moon timestamp'
 moonBase = moonBase()
+moonBotA = moonBot()
 
 
-@moonBotController.route('/') # display all votes and trading pair tick if provided with keys 
+@moonController.route('/') # display all votes and trading pair tick if provided with keys 
 def moonWatch():
     
     votes = moonBase.getAllVotes()
     
-    if session.has_key('keys') :
-        keys = ast.literal_eval(json.dumps(session['keys']))
-        moonBotController.logger.info(keys)
-        bot = moonBot(1, keys['pair'], keys['apiKey'], keys['secret'])
-        balances = bot.queryBalance()
-        tradePair = [keys['pair'],bot.queryPairs()]
-        return render_template('votes.html', votes=votes, tradePair=tradePair, balances=balances)
-    return render_template('votes.html', votes=votes)
+    if moonBotA.isReady():
+        balances = moonBotA.queryBalance()
+        tradePair = [moonBotA.pair,moonBotA.queryPairs()]
+        return render_template('votes.html', votes=votes, tradePair=tradePair, balances=balances, botStatus='ready to moon')
+    return render_template('votes.html', votes=votes, botStatus='waiting for launch')
 
 
-@moonBotController.route('/newVotes', methods=['POST'])
+@moonController.route('/newVotes', methods=['POST'])
 def postVotes():
     votes = {
         'votingPeriod' : request.form['voting_period'],
@@ -35,15 +33,22 @@ def postVotes():
     moonBase.insertVotes(votes)
     return redirect(url_for('moonWatch'))
 
-@moonBotController.route('/moonWatch', methods=['POST'])
+@moonController.route('/moonWatch', methods=['POST'])
 def queryPair():
+    pair = {
+        'pair' : request.form['pair'], #voting pair
+    }
+    session['pair'] = pair
+    return redirect(url_for('moonWatch'))
+
+@moonController.route('/setUpBot', methods=['POST'])
+def setUpBot():
     keys = {
         'pair' : request.form['pair'], #voting pair
         'apiKey' : request.form['apiKey'], #voting volume
         'secret' : request.form['secret'] #processed or not
     }
-    session['keys'] = keys
-    return redirect(url_for('moonWatch'))
+    moonBotA = moonBot(1, keys['pair'], keys['apiKey'], keys['secret'])
 
 if __name__ == "__main__":
-    moonBotController.run(host='0.0.0.0', debug=True)
+    moonController.run(host='0.0.0.0', debug=True)
