@@ -14,17 +14,26 @@
 
 
 <div>
-<h>Moon Watch<h>
-<form action="/moonWatch" method="POST">
-  <input type="text" name="pair">pair
+<h>Set up Bot<h>
+<form action="/setUpBot" method="POST">
+  <input type="text" name="pair">default pair
   <input type="text" name="apiKey">apiKey
   <input type="text" name="secret">secret
   <input type="submit">
 </form>
 </div>
 
+<div>
+<h>Moon Watch<h>
+<form action="/moonWatch" method="POST">
+  <input type="text" name="pair">pair to watch
+  <input type="submit">
+</form>
+</div>
+
+<h1> Votes </h1>
 {% for vote in votes %}
-  <h1> votingPair: {{vote['votingPair']}} </h1>
+  <p> votingPair: {{vote['votingPair']}} </p>
   <p> votingPeriod: {{vote.votingPeriod}} </p>
   <p> count: {{vote.count}} </p>
   <p> processed: {{vote.processed}} </p>

@@ -25,7 +25,7 @@ class moonBot(object):
         @param secret:
         @param allowed_pair: a set of pre defined allowed pairs, we should cross join this pair to the available list on polo
         '''
-        
+        self.conn = None
         if apiKey and secret:
             self.conn = poloniex(apiKey,secret)
             self.allowd_pair = allowed_pair.intersection(set(self.queryCurrentTicker().keys()))
@@ -86,7 +86,8 @@ class moonBot(object):
             currentPair = self.pair
         self.conn.withdraw(currentPair, amount, address)
         
-    def convertToStr(self, inputs):
+    @staticmethod
+    def convertToStr(inputs):
         return ast.literal_eval(json.dumps(inputs)) 
     
     def queryTargetBalance(self, currency):
@@ -110,10 +111,12 @@ class moonBot(object):
             return True 
     
     def isReady(self):
-        if self.conn:
+        if self.conn is not None:
             return True
         return False
-        
+    
+    def setPair(self, pair):
+        self.pair = pair
     
     def moonWatch(self):
         while True:
